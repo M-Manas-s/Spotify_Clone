@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_player/Classes/audio_player.dart';
 import 'package:music_player/Classes/music.dart';
 import 'package:music_player/Constants/constants.dart';
@@ -22,7 +23,7 @@ class _CurrentlyPlayingState extends State<CurrentlyPlaying> {
   @override
   Widget build(BuildContext context) {
     music = tracks[Provider
-        .of<AudioPlayer>(context, listen: true)
+        .of<AudioPlayerProvider>(context, listen: true)
         .currently_playing];
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     Size size = MediaQuery
@@ -92,6 +93,16 @@ class ControlArea extends StatefulWidget {
 }
 
 class _ControlAreaState extends State<ControlArea> {
+
+  late AudioPlayer player;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    player = AudioPlayer();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -119,7 +130,7 @@ class _ControlAreaState extends State<ControlArea> {
                     ],
                   ),
                   buildButtons(size, Provider
-                      .of<AudioPlayer>(context, listen: true)
+                      .of<AudioPlayerProvider>(context, listen: true)
                       .playing),
                   SizedBox(height: size.height * 0.02,)
                 ],
@@ -141,15 +152,15 @@ class _ControlAreaState extends State<ControlArea> {
           Row(
             children: [
               IconButton(icon: const ImageIcon(AssetImage("Assets/Icons/back.png"), color: Colors.white, size: 32,), padding: const EdgeInsets.all(0), onPressed: () {
-                Provider.of<AudioPlayer>(context, listen: false).changePlaying(false);
+                Provider.of<AudioPlayerProvider>(context, listen: false).changePlaying(false);
               },),
               SizedBox(width: size.width * 0.05,),
-              IconButton(onPressed: () => Provider.of<AudioPlayer>(context, listen: false).toggle(),
+              IconButton(onPressed: () => Provider.of<AudioPlayerProvider>(context, listen: false).toggle(),
                 icon:
                 Icon(!playing ? Icons.play_circle : Icons.pause_circle, color: kGreen), padding: const EdgeInsets.all(0), iconSize: 86,),
               SizedBox(width: size.width * 0.05,),
               IconButton(icon: const ImageIcon(AssetImage("Assets/Icons/next.png"), color: Colors.white, size: 32), padding: const EdgeInsets.all(0), onPressed: () {
-                Provider.of<AudioPlayer>(context, listen: false).changePlaying(true);
+                Provider.of<AudioPlayerProvider>(context, listen: false).changePlaying(true);
               },),
             ],
           ),

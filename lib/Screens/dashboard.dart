@@ -41,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ci = Provider.of<AudioPlayer>(context, listen: true).currently_playing;
+    ci = Provider.of<AudioPlayerProvider>(context, listen: true).currently_playing;
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -90,7 +90,7 @@ class NavBarAndPlaying extends StatefulWidget {
 class _NavBarAndPlayingState extends State<NavBarAndPlaying> {
   @override
   Widget build(BuildContext context) {
-    int ci = Provider.of<AudioPlayer>(context, listen: true).currently_playing;
+    int ci = Provider.of<AudioPlayerProvider>(context, listen: true).currently_playing;
     int tab = Provider.of<HomeTab>(context, listen: true).tab;
     Size size = MediaQuery.of(context).size;
     return Expanded(
@@ -211,12 +211,6 @@ class _BuildCurrentlyPlayingState extends State<BuildCurrentlyPlaying> {
           sigmaY: 18.0,
         ),
         child: GestureDetector(
-          onVerticalDragUpdate: (var x) {
-            // if (x.delta.dy < -3) {
-            //   log(x.delta.dy.toString());
-            //   Navigator.push(context, MaterialPageRoute(fullscreenDialog: true, builder: (context) => const CurrentlyPlaying()));
-            // }
-          },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: widget.size.width * 0.035, vertical: widget.size.height * 0.005),
             child: Row(
@@ -282,14 +276,14 @@ class _BuildCurrentlyPlayingState extends State<BuildCurrentlyPlaying> {
                       width: widget.size.width * 0.04,
                     ),
                     GestureDetector(
-                      onPanDown: (var x) => Provider.of<AudioPlayer>(context, listen: false).toggle(),
+                      onPanDown: (var x) => Provider.of<AudioPlayerProvider>(context, listen: false).toggle(),
                       child: Stack(children: [
                         Center(
                           child: SizedBox(
                             height: widget.size.height * 0.055,
                             width: widget.size.height * 0.055,
                             child: CircularProgressIndicator(
-                              value: 0.30,
+                              value: .30,//Provider.of<AudioPlayerProvider>(context, listen: true).
                               color: kGreen,
                               backgroundColor: Colors.grey,
                               strokeWidth: 2.25,
@@ -300,10 +294,10 @@ class _BuildCurrentlyPlayingState extends State<BuildCurrentlyPlaying> {
                             child: Align(
                                 alignment: Alignment.center,
                                 child: Icon(
-                                  !Provider.of<AudioPlayer>(context, listen: true).playing ? Icons.play_arrow : Icons.pause,
+                                  !Provider.of<AudioPlayerProvider>(context, listen: true).playing ? Icons.play_arrow : Icons.pause,
                                   color: Colors.white,
                                   size: 33,
-                                )))
+                                ),),),
                       ]),
                     )
                   ],

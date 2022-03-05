@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => AudioPlayer(),
+      create: (BuildContext context) => AudioPlayerProvider(),
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
